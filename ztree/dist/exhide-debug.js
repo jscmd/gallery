@@ -1,4 +1,4 @@
-define("lynzz/ztree/3.5.15/exhide-debug", [ "$-debug" ], function(require, exports, module) {
+define("gallery/ztree/3.5.15/exhide-debug", [ "$-debug" ], function(require, exports, module) {
     var $ = require("$-debug");
     /*
      * JQuery zTree exHideNodes v3.5.15
