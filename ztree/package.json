@@ -1,6 +1,6 @@
 {
   "name": "ztree",
-  "family": "lynzz",
+  "family": "gallery",
   "version": "3.5.15",
   "package": "https://raw.github.com/zTree/zTree_v3/master/zTree.v3.jquery.json",
   "description": "A jQuery tree plugin",
