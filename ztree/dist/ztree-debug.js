@@ -1,18 +1,18 @@
-define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], function(require, exports, module) {
-    var jQuery = require("$-debug");
+define("lynzz/ztree/3.5.15/ztree-debug", [ "$-debug", "./ztree-debug.css" ], function(require, exports, module) {
+    var $ = require("$-debug");
     require("./ztree-debug.css");
     /*
- * JQuery zTree core 3.5.14
- * http://zTree.me/
- *
- * Copyright (c) 2010 Hunter.z
- *
- * Licensed same as jquery - MIT License
- * http://www.opensource.org/licenses/mit-license.php
- *
- * email: hunter.z@263.net
- * Date: 2013-06-28
- */
+     * JQuery zTree core v3.5.15
+     * http://zTree.me/
+     *
+     * Copyright (c) 2010 Hunter.z
+     *
+     * Licensed same as jquery - MIT License
+     * http://www.opensource.org/licenses/mit-license.php
+     *
+     * email: hunter.z@263.net
+     * Date: 2013-10-15
+     */
     (function($) {
         var settings = {}, roots = {}, caches = {}, //default consts of core
         _consts = {
@@ -67,7 +67,8 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
                 selectedMulti: true,
                 showIcon: true,
                 showLine: true,
-                showTitle: true
+                showTitle: true,
+                txtSelectedEnable: false
             },
             data: {
                 key: {
@@ -263,15 +264,13 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
             n.level = level;
             n.tId = setting.treeId + "_" + ++r.zId;
             n.parentTId = parentNode ? parentNode.tId : null;
+            n.open = typeof n.open == "string" ? tools.eqs(n.open, "true") : !!n.open;
             if (n[childKey] && n[childKey].length > 0) {
-                if (typeof n.open == "string") n.open = tools.eqs(n.open, "true");
-                n.open = !!n.open;
                 n.isParent = true;
                 n.zAsync = true;
             } else {
-                n.open = false;
-                if (typeof n.isParent == "string") n.isParent = tools.eqs(n.isParent, "true");
-                n.isParent = !!n.isParent;
+                n.isParent = typeof n.isParent == "string" ? tools.eqs(n.isParent, "true") : !!n.isParent;
+                n.open = n.isParent && !setting.async.enable ? n.open : false;
                 n.zAsync = !n.isParent;
             }
             n.isFirstNode = isFirstNode;
@@ -606,13 +605,16 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
                 var eventParam = {
                     treeId: setting.treeId
                 }, o = setting.treeObj;
-                // for can't select text
-                o.bind("selectstart", function(e) {
-                    var n = e.originalEvent.srcElement.nodeName.toLowerCase();
-                    return n === "input" || n === "textarea";
-                }).css({
-                    "-moz-user-select": "-moz-none"
-                });
+                if (!setting.view.txtSelectedEnable) {
+                    // for can't select text
+                    o.bind("selectstart", function(e) {
+                        var node;
+                        var n = e.originalEvent.srcElement.nodeName.toLowerCase();
+                        return n === "input" || n === "textarea";
+                    }).css({
+                        "-moz-user-select": "-moz-none"
+                    });
+                }
                 o.bind("click", eventParam, event.proxy);
                 o.bind("dblclick", eventParam, event.proxy);
                 o.bind("mouseover", eventParam, event.proxy);
@@ -758,6 +760,9 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
             },
             getNodeMainDom: function(target) {
                 return $(target).parent("li").get(0) || $(target).parentsUntil("li").parent().get(0);
+            },
+            isChildOrSelf: function(dom, parentId) {
+                return $(dom).closest("#" + parentId).length > 0;
             },
             uCanDo: function(setting, e) {
                 return true;
@@ -1597,17 +1602,17 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
         var zt = $.fn.zTree, $$ = tools.$, consts = zt.consts;
     })(jQuery);
     /*
- * JQuery zTree excheck 3.5.14
- * http://zTree.me/
- *
- * Copyright (c) 2010 Hunter.z
- *
- * Licensed same as jquery - MIT License
- * http://www.opensource.org/licenses/mit-license.php
- *
- * email: hunter.z@263.net
- * Date: 2013-06-28
- */
+     * JQuery zTree excheck v3.5.15
+     * http://zTree.me/
+     *
+     * Copyright (c) 2010 Hunter.z
+     *
+     * Licensed same as jquery - MIT License
+     * http://www.opensource.org/licenses/mit-license.php
+     *
+     * email: hunter.z@263.net
+     * Date: 2013-10-15
+     */
     (function($) {
         //default consts of excheck
         var _consts = {
@@ -2162,17 +2167,17 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
         };
     })(jQuery);
     /*
- * JQuery zTree exedit 3.5.14
- * http://zTree.me/
- *
- * Copyright (c) 2010 Hunter.z
- *
- * Licensed same as jquery - MIT License
- * http://www.opensource.org/licenses/mit-license.php
- *
- * email: hunter.z@263.net
- * Date: 2013-06-28
- */
+     * JQuery zTree exedit v3.5.15
+     * http://zTree.me/
+     *
+     * Copyright (c) 2010 Hunter.z
+     *
+     * Licensed same as jquery - MIT License
+     * http://www.opensource.org/licenses/mit-license.php
+     *
+     * email: hunter.z@263.net
+     * Date: 2013-10-15
+     */
     (function($) {
         //default consts of exedit
         var _consts = {
@@ -2332,9 +2337,9 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
         }, //update zTreeObj, add method of edit
         _zTreeTools = function(setting, zTreeTools) {
             zTreeTools.cancelEditName = function(newName) {
-                var root = data.getRoot(setting), nameKey = setting.data.key.name, node = root.curEditNode;
+                var root = data.getRoot(setting);
                 if (!root.curEditNode) return;
-                view.cancelCurEditNode(setting, newName ? newName : node[nameKey]);
+                view.cancelCurEditNode(setting, newName ? newName : null, true);
             };
             zTreeTools.copyNode = function(targetNode, node, moveType, isSilent) {
                 if (!node) return null;
@@ -2539,7 +2544,7 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
                             }
                         }
                         var docScrollTop = doc.scrollTop(), docScrollLeft = doc.scrollLeft(), treeOffset = targetSetting.treeObj.offset(), scrollHeight = targetSetting.treeObj.get(0).scrollHeight, scrollWidth = targetSetting.treeObj.get(0).scrollWidth, dTop = event.clientY + docScrollTop - treeOffset.top, dBottom = targetSetting.treeObj.height() + treeOffset.top - event.clientY - docScrollTop, dLeft = event.clientX + docScrollLeft - treeOffset.left, dRight = targetSetting.treeObj.width() + treeOffset.left - event.clientX - docScrollLeft, isTop = dTop < setting.edit.drag.borderMax && dTop > setting.edit.drag.borderMin, isBottom = dBottom < setting.edit.drag.borderMax && dBottom > setting.edit.drag.borderMin, isLeft = dLeft < setting.edit.drag.borderMax && dLeft > setting.edit.drag.borderMin, isRight = dRight < setting.edit.drag.borderMax && dRight > setting.edit.drag.borderMin, isTreeInner = dTop > setting.edit.drag.borderMin && dBottom > setting.edit.drag.borderMin && dLeft > setting.edit.drag.borderMin && dRight > setting.edit.drag.borderMin, isTreeTop = isTop && targetSetting.treeObj.scrollTop() <= 0, isTreeBottom = isBottom && targetSetting.treeObj.scrollTop() + targetSetting.treeObj.height() + 10 >= scrollHeight, isTreeLeft = isLeft && targetSetting.treeObj.scrollLeft() <= 0, isTreeRight = isRight && targetSetting.treeObj.scrollLeft() + targetSetting.treeObj.width() + 10 >= scrollWidth;
-                        if (event.target.id && targetSetting.treeObj.find("#" + event.target.id).length > 0) {
+                        if (event.target && tools.isChildOrSelf(event.target, targetSetting.treeId)) {
                             //get node <li> dom
                             var targetObj = event.target;
                             while (targetObj && targetObj.tagName && !tools.eqs(targetObj.tagName, "li") && targetObj.id != targetSetting.treeId) {
@@ -2557,16 +2562,14 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
                                     break;
                                 }
                             }
-                            if (canMove) {
-                                if (event.target.id && (event.target.id == targetObj.id + consts.id.A || $(event.target).parents("#" + targetObj.id + consts.id.A).length > 0)) {
-                                    tmpTarget = $(targetObj);
-                                    tmpTargetNodeId = targetObj.id;
-                                }
+                            if (canMove && event.target && tools.isChildOrSelf(event.target, targetObj.id + consts.id.A)) {
+                                tmpTarget = $(targetObj);
+                                tmpTargetNodeId = targetObj.id;
                             }
                         }
                         //the mouse must be in zTree
                         tmpNode = nodes[0];
-                        if (isTreeInner && (event.target.id == targetSetting.treeId || $(event.target).parents("#" + targetSetting.treeId).length > 0)) {
+                        if (isTreeInner && tools.isChildOrSelf(event.target, targetSetting.treeId)) {
                             //judge mouse move in root of ztree
                             if (!tmpTarget && (event.target.id == targetSetting.treeId || isTreeTop || isTreeBottom || isTreeLeft || isTreeRight) && (isOtherTree || !isOtherTree && tmpNode.parentTId)) {
                                 tmpTarget = targetSetting.treeObj;
@@ -2869,14 +2872,14 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
                     tools.apply(setting.view.addHoverDom, [ setting.treeId, node ]);
                 }
             },
-            cancelCurEditNode: function(setting, forceName) {
+            cancelCurEditNode: function(setting, forceName, isCancel) {
                 var root = data.getRoot(setting), nameKey = setting.data.key.name, node = root.curEditNode;
                 if (node) {
-                    var inputObj = root.curEditInput, newName = forceName ? forceName : inputObj.val(), isCancel = !!forceName;
+                    var inputObj = root.curEditInput, newName = forceName ? forceName : isCancel ? node[nameKey] : inputObj.val();
                     if (tools.apply(setting.callback.beforeRename, [ setting.treeId, node, newName, isCancel ], true) === false) {
                         return false;
                     } else {
-                        node[nameKey] = newName ? newName : inputObj.val();
+                        node[nameKey] = newName;
                         setting.treeObj.trigger(consts.event.RENAME, [ setting.treeId, node, isCancel ]);
                     }
                     var aObj = $$(node, consts.id.A, setting);
@@ -2922,7 +2925,7 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
                         view.editNodeBlur = true;
                         view.cancelCurEditNode(setting);
                     } else if (event.keyCode == "27") {
-                        view.cancelCurEditNode(setting, node[nameKey]);
+                        view.cancelCurEditNode(setting, null, true);
                     }
                 }).bind("click", function(event) {
                     return false;
@@ -3178,11 +3181,15 @@ define("gallery/ztree/3.5.14/ztree-debug", [ "$-debug", "./ztree-debug.css" ], f
             if (e && (tools.eqs(e.type, "mouseover") || tools.eqs(e.type, "mouseout") || tools.eqs(e.type, "mousedown") || tools.eqs(e.type, "mouseup"))) {
                 return true;
             }
+            if (root.curEditNode) {
+                view.editNodeBlur = false;
+                root.curEditInput.focus();
+            }
             return !root.curEditNode && (_uCanDo ? _uCanDo.apply(view, arguments) : true);
         };
     })(jQuery);
 });
 
-define("gallery/ztree/3.5.14/ztree-debug.css", [], function() {
-    seajs.importStyle(".ztree *{padding:0;margin:0;font-size:12px;font-family:Verdana,Arial,Helvetica,AppleGothic,sans-serif}.ztree{margin:0;padding:5px;color:#333}.ztree li{padding:0;margin:0;list-style:none;line-height:14px;text-align:left;white-space:nowrap;outline:0}.ztree li ul{margin:0;padding:0 0 0 18px}.ztree li ul.line{background:url(https://i.alipayobjects.com/e/201303/2MFyKU1LW9.gif) 0 0 repeat-y}.ztree li a{padding:1px 3px 0 0;margin:0;cursor:pointer;height:17px;color:#333;background-color:transparent;text-decoration:none;vertical-align:top;display:inline-block}.ztree li a:hover{text-decoration:underline}.ztree li a.curSelectedNode{padding-top:0;background-color:#FFE6B0;color:#000;height:16px;border:1px #FFB951 solid;opacity:.8}.ztree li a.curSelectedNode_Edit{padding-top:0;background-color:#FFE6B0;color:#000;height:16px;border:1px #FFB951 solid;opacity:.8}.ztree li a.tmpTargetNode_inner{padding-top:0;background-color:#316AC5;color:#fff;height:16px;border:1px #316AC5 solid;opacity:.8;filter:alpha(opacity=80)}.ztree li a input.rename{height:14px;width:80px;padding:0;margin:0;font-size:12px;border:1px #7EC4CC solid;*border:0}.ztree li span{line-height:16px;margin-right:2px}.ztree li span.button{line-height:0;margin:0;width:16px;height:16px;display:inline-block;vertical-align:middle;border:0 none;cursor:pointer;outline:0;background-color:transparent;background-repeat:no-repeat;background-attachment:scroll;background-image:url(https://i.alipayobjects.com/e/201303/2MFzqnrx4P.png);*background-image:url(https://i.alipayobjects.com/e/201303/2MFzMNFUUn.gif)}.ztree li span.button.chk{width:13px;height:13px;margin:0 3px 0 0;cursor:auto}.ztree li span.button.chk.checkbox_false_full{background-position:0 0}.ztree li span.button.chk.checkbox_false_full_focus{background-position:0 -14px}.ztree li span.button.chk.checkbox_false_part{background-position:0 -28px}.ztree li span.button.chk.checkbox_false_part_focus{background-position:0 -42px}.ztree li span.button.chk.checkbox_false_disable{background-position:0 -56px}.ztree li span.button.chk.checkbox_true_full{background-position:-14px 0}.ztree li span.button.chk.checkbox_true_full_focus{background-position:-14px -14px}.ztree li span.button.chk.checkbox_true_part{background-position:-14px -28px}.ztree li span.button.chk.checkbox_true_part_focus{background-position:-14px -42px}.ztree li span.button.chk.checkbox_true_disable{background-position:-14px -56px}.ztree li span.button.chk.radio_false_full{background-position:-28px 0}.ztree li span.button.chk.radio_false_full_focus{background-position:-28px -14px}.ztree li span.button.chk.radio_false_part{background-position:-28px -28px}.ztree li span.button.chk.radio_false_part_focus{background-position:-28px -42px}.ztree li span.button.chk.radio_false_disable{background-position:-28px -56px}.ztree li span.button.chk.radio_true_full{background-position:-42px 0}.ztree li span.button.chk.radio_true_full_focus{background-position:-42px -14px}.ztree li span.button.chk.radio_true_part{background-position:-42px -28px}.ztree li span.button.chk.radio_true_part_focus{background-position:-42px -42px}.ztree li span.button.chk.radio_true_disable{background-position:-42px -56px}.ztree li span.button.switch{width:18px;height:18px}.ztree li span.button.root_open{background-position:-92px -54px}.ztree li span.button.root_close{background-position:-74px -54px}.ztree li span.button.roots_open{background-position:-92px 0}.ztree li span.button.roots_close{background-position:-74px 0}.ztree li span.button.center_open{background-position:-92px -18px}.ztree li span.button.center_close{background-position:-74px -18px}.ztree li span.button.bottom_open{background-position:-92px -36px}.ztree li span.button.bottom_close{background-position:-74px -36px}.ztree li span.button.noline_open{background-position:-92px -72px}.ztree li span.button.noline_close{background-position:-74px -72px}.ztree li span.button.root_docu{background:0}.ztree li span.button.roots_docu{background-position:-56px 0}.ztree li span.button.center_docu{background-position:-56px -18px}.ztree li span.button.bottom_docu{background-position:-56px -36px}.ztree li span.button.noline_docu{background:0}.ztree li span.button.ico_open{margin-right:2px;background-position:-110px -16px;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_close{margin-right:2px;background-position:-110px 0;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_docu{margin-right:2px;background-position:-110px -32px;vertical-align:top;*vertical-align:middle}.ztree li span.button.edit{margin-right:2px;background-position:-110px -48px;vertical-align:top;*vertical-align:middle}.ztree li span.button.remove{margin-right:2px;background-position:-110px -64px;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_loading{margin-right:2px;background:url(https://i.alipayobjects.com/e/201303/2MFyKU1LW9.gif) no-repeat scroll 0 0 transparent;vertical-align:top;*vertical-align:middle}ul.tmpTargetzTree{background-color:#FFE6B0;opacity:.8;filter:alpha(opacity=80)}span.tmpzTreeMove_arrow{width:16px;height:16px;display:inline-block;padding:0;margin:2px 0 0 1px;border:0 none;position:absolute;background-color:transparent;background-repeat:no-repeat;background-attachment:scroll;background-position:-110px -80px;background-image:url(https://i.alipayobjects.com/e/201303/2MFzqnrx4P.png);*background-image:url(https://i.alipayobjects.com/e/201303/2MFzMNFUUn.gif)}ul.ztree.zTreeDragUL{margin:0;padding:0;position:absolute;width:auto;height:auto;overflow:hidden;background-color:#cfcfcf;border:1px #00B83F dotted;opacity:.8;filter:alpha(opacity=80)}.zTreeMask{z-index:10000;background-color:#cfcfcf;opacity:0;filter:alpha(opacity=0);position:absolute}");
+define("lynzz/ztree/3.5.15/ztree-debug.css", [], function() {
+    seajs.importStyle(".ztree *{padding:0;margin:0;font-size:12px;font-family:Verdana,Arial,Helvetica,AppleGothic,sans-serif}.ztree{margin:0;padding:5px;color:#333}.ztree li{padding:0;margin:0;list-style:none;line-height:14px;text-align:left;white-space:nowrap;outline:0}.ztree li ul{margin:0;padding:0 0 0 18px}.ztree li ul.line{background:url(2MFyKU1LW9.gif) 0 0 repeat-y}.ztree li a{padding:1px 3px 0 0;margin:0;cursor:pointer;height:17px;color:#333;background-color:transparent;text-decoration:none;vertical-align:top;display:inline-block}.ztree li a:hover{text-decoration:underline}.ztree li a.curSelectedNode{padding-top:0;background-color:#FFE6B0;color:#000;height:16px;border:1px #FFB951 solid;opacity:.8}.ztree li a.curSelectedNode_Edit{padding-top:0;background-color:#FFE6B0;color:#000;height:16px;border:1px #FFB951 solid;opacity:.8}.ztree li a.tmpTargetNode_inner{padding-top:0;background-color:#316AC5;color:#fff;height:16px;border:1px #316AC5 solid;opacity:.8;filter:alpha(opacity=80)}.ztree li a input.rename{height:14px;width:80px;padding:0;margin:0;font-size:12px;border:1px #7EC4CC solid;*border:0}.ztree li span{line-height:16px;margin-right:2px}.ztree li span.button{line-height:0;margin:0;width:16px;height:16px;display:inline-block;vertical-align:middle;border:0 none;cursor:pointer;outline:0;background-color:transparent;background-repeat:no-repeat;background-attachment:scroll;background-image:url(2MFzqnrx4P.png);*background-image:url(2MFzMNFUUn.gif)}.ztree li span.button.chk{width:13px;height:13px;margin:0 3px 0 0;cursor:auto}.ztree li span.button.chk.checkbox_false_full{background-position:0 0}.ztree li span.button.chk.checkbox_false_full_focus{background-position:0 -14px}.ztree li span.button.chk.checkbox_false_part{background-position:0 -28px}.ztree li span.button.chk.checkbox_false_part_focus{background-position:0 -42px}.ztree li span.button.chk.checkbox_false_disable{background-position:0 -56px}.ztree li span.button.chk.checkbox_true_full{background-position:-14px 0}.ztree li span.button.chk.checkbox_true_full_focus{background-position:-14px -14px}.ztree li span.button.chk.checkbox_true_part{background-position:-14px -28px}.ztree li span.button.chk.checkbox_true_part_focus{background-position:-14px -42px}.ztree li span.button.chk.checkbox_true_disable{background-position:-14px -56px}.ztree li span.button.chk.radio_false_full{background-position:-28px 0}.ztree li span.button.chk.radio_false_full_focus{background-position:-28px -14px}.ztree li span.button.chk.radio_false_part{background-position:-28px -28px}.ztree li span.button.chk.radio_false_part_focus{background-position:-28px -42px}.ztree li span.button.chk.radio_false_disable{background-position:-28px -56px}.ztree li span.button.chk.radio_true_full{background-position:-42px 0}.ztree li span.button.chk.radio_true_full_focus{background-position:-42px -14px}.ztree li span.button.chk.radio_true_part{background-position:-42px -28px}.ztree li span.button.chk.radio_true_part_focus{background-position:-42px -42px}.ztree li span.button.chk.radio_true_disable{background-position:-42px -56px}.ztree li span.button.switch{width:18px;height:18px}.ztree li span.button.root_open{background-position:-92px -54px}.ztree li span.button.root_close{background-position:-74px -54px}.ztree li span.button.roots_open{background-position:-92px 0}.ztree li span.button.roots_close{background-position:-74px 0}.ztree li span.button.center_open{background-position:-92px -18px}.ztree li span.button.center_close{background-position:-74px -18px}.ztree li span.button.bottom_open{background-position:-92px -36px}.ztree li span.button.bottom_close{background-position:-74px -36px}.ztree li span.button.noline_open{background-position:-92px -72px}.ztree li span.button.noline_close{background-position:-74px -72px}.ztree li span.button.root_docu{background:0}.ztree li span.button.roots_docu{background-position:-56px 0}.ztree li span.button.center_docu{background-position:-56px -18px}.ztree li span.button.bottom_docu{background-position:-56px -36px}.ztree li span.button.noline_docu{background:0}.ztree li span.button.ico_open{margin-right:2px;background-position:-110px -16px;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_close{margin-right:2px;background-position:-110px 0;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_docu{margin-right:2px;background-position:-110px -32px;vertical-align:top;*vertical-align:middle}.ztree li span.button.edit{margin-right:2px;background-position:-110px -48px;vertical-align:top;*vertical-align:middle}.ztree li span.button.remove{margin-right:2px;background-position:-110px -64px;vertical-align:top;*vertical-align:middle}.ztree li span.button.ico_loading{margin-right:2px;background:url(2MFyKU1LW9.gif) no-repeat scroll 0 0 transparent;vertical-align:top;*vertical-align:middle}ul.tmpTargetzTree{background-color:#FFE6B0;opacity:.8;filter:alpha(opacity=80)}span.tmpzTreeMove_arrow{width:16px;height:16px;display:inline-block;padding:0;margin:2px 0 0 1px;border:0 none;position:absolute;background-color:transparent;background-repeat:no-repeat;background-attachment:scroll;background-position:-110px -80px;background-image:url(2MFzqnrx4P.png);*background-image:url(2MFzMNFUUn.gif)}ul.ztree.zTreeDragUL{margin:0;padding:0;position:absolute;width:auto;height:auto;overflow:hidden;background-color:#cfcfcf;border:1px #00B83F dotted;opacity:.8;filter:alpha(opacity=80)}.zTreeMask{z-index:10000;background-color:#cfcfcf;opacity:0;filter:alpha(opacity=0);position:absolute}");
 });

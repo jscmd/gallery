@@ -1,13 +1,13 @@
 {
   "name": "ztree",
-  "family": "gallery",
-  "version": "3.5.14",
+  "family": "lynzz",
+  "version": "3.5.15",
   "package": "https://raw.github.com/zTree/zTree_v3/master/zTree.v3.jquery.json",
   "description": "A jQuery tree plugin",
   "author": "Zhang QiGang <hunter.z@263.net>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zTree/zTree_v3"
+    "url": "git://github.com/lynzz/ztree.git"
   },
   "homepage": "https://github.com/zTree/zTree_v3",
   "bugs": {
@@ -20,7 +20,8 @@
     "output": [
       "ztree.js",
       "ztree.css",
-      "ztree-exhide.js"
+      "exhide.js"
     ]
   }
 }
+
