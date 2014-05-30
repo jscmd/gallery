@@ -13,7 +13,6 @@ module.exports = function(grunt) {
           transform: function(code) {
             return [
                 'define(function(require, exports, module) {',
-                'require("json");',
                 code,
                 "});"
             ].join('\n');
