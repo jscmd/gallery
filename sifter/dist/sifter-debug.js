@@ -1,4 +1,4 @@
-define("gallery/sfiter/0.3.4/sifter-debug", [], function(require, exports, module) {
+define("gallery/sifter/0.3.4/sifter-debug", [], function(require, exports, module) {
     /**
  * sifter.js
  * Copyright (c) 2013 Brian Reavis & contributors
