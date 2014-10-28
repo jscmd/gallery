@@ -1,8 +1,9 @@
 define(function(require) {
-  var module = require('./dist/sifter');
+  var Sifter = require('./dist/sifter');
   describe('sifter.js', function() {
     it('should have search function', function() {
-      expect(new module().search).to.be.a('function');
+      var data = [{text:1, name:2}];
+      expect(new Sifter(data).search).to.be.a('function');
     });
   });
 });
