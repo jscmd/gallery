@@ -1,6 +1,7 @@
 {
   "name": "gallery",
   "version": "1.0.0",
+  "repository":{},
   "description": "gallery",
   "dependencies": {
     "seajs": "*",
