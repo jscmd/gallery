@@ -1,0 +1,21 @@
+{
+  "family": "gallery",
+  "name": "highcharts",
+  "description": "Highcharts JS, the JavaScript charting framework",
+  "version": "4.0.4",
+  "homepage": "http://www.highcharts.com",
+  "keywords": ["data", "chart", "pie", "line", "svg", "canvas"],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jscmd/gallery/highcharts.git"
+  },
+  "main": "./highcharts.js",
+  "spm": {
+    "alias": {
+      "$": "$"
+    },
+    "output": {
+      "highcharts.js": ["highcharts.js"]
+    }
+  }
+}
